@@ -1,8 +1,8 @@
 package org.example.model;
 
 public class Role {
-    Long id;
-    String name;
+    private Long id;
+    private String name;
 
     public Role(Long id, String name) {
         this.id = id;

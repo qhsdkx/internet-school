@@ -27,7 +27,6 @@ public class CourseRepository {
         Course course = new Course();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 fillCourse(course, rs);
@@ -40,12 +39,9 @@ public class CourseRepository {
 
     public List<Course> findAll() {
         List<Course> courses = new ArrayList<>();
-
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 Course course = new Course();
                 fillCourse(course, rs);

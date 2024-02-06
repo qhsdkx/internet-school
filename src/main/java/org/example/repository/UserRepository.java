@@ -28,7 +28,6 @@ public class UserRepository {
         User user = new User();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 fillUser(user, rs);
@@ -125,7 +124,6 @@ public class UserRepository {
         user.setSurname(rs.getString("surname"));
         user.setLogin(rs.getString("login"));
         user.setPassword(rs.getString("password"));
-        //user.setBirthDay(LocalDate.parse(rs.getDate("birth_day").toString()));
     }
 
 }

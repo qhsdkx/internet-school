@@ -14,7 +14,7 @@ public class CourseResultRepository {
 
     public static final String SELECT_BY_ID_QUERY = "SELECT * FROM course_results WHERE id = ?";
     public static final String SELECT_QUERY = "SELECT * FROM course_results";
-    public static final String INSERT_QUERY = "INSERT INTO course_results(score, feedback, end_date, user_id) VALUES (?, ?, ?, ?);";
+    public static final String INSERT_QUERY = "INSERT INTO course_results(score, feedback, end_date, user_id) VALUES (?, ?, ?, ?)";
     public static final String UPDATE_BY_ID_QUERY = "UPDATE course_results SET score = ?, feedbackk = ?, end_date = ?, user_id = ? WHERE id = ?";
     public static final String DELETE_BY_ID_QUERY = "DELETE FROM course_results WHERE id = ?";
 
@@ -26,7 +26,6 @@ public class CourseResultRepository {
         CourseResult courseResult = new CourseResult();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 fillCourseResult(courseResult, rs);
@@ -42,9 +41,7 @@ public class CourseResultRepository {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 CourseResult courseResult = new CourseResult();
                 fillCourseResult(courseResult, rs);

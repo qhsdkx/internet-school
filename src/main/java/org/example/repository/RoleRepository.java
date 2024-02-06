@@ -13,7 +13,7 @@ public class RoleRepository {
 
     public static final String SELECT_BY_ID_QUERY = "SELECT * FROM roles WHERE id = ?";
     public static final String SELECT_QUERY = "SELECT * FROM roles";
-    public static final String INSERT_QUERY = "INSERT INTO roles(name) VALUES (?);";
+    public static final String INSERT_QUERY = "INSERT INTO roles(name) VALUES (?)";
     public static final String UPDATE_BY_ID_QUERY = "UPDATE roles SET name = ? WHERE id = ?";
     public static final String DELETE_BY_ID_QUERY = "DELETE FROM roles WHERE id = ?";
 
@@ -25,7 +25,6 @@ public class RoleRepository {
         Role role = new Role();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 fillRole(role, rs);
@@ -41,9 +40,7 @@ public class RoleRepository {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
-
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 Role role = new Role();
                 fillRole(role, rs);
