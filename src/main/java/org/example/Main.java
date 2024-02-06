@@ -1,9 +1,5 @@
 package org.example;
 
-import org.example.model.Course;
-import org.example.model.CourseResult;
-import org.example.model.Role;
-import org.example.model.User;
 import org.example.repository.CourseRepository;
 import org.example.repository.CourseResultRepository;
 import org.example.repository.RoleRepository;

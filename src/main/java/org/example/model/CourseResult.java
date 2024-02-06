@@ -3,7 +3,6 @@ package org.example.model;
 import java.time.LocalDate;
 
 public class CourseResult {
-
     private Long id;
     private Integer score;
     private String feedback;

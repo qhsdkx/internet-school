@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoleRepository {
-
     private final DataSource dataSource;
 
     public static final String SELECT_BY_ID_QUERY = "SELECT * FROM roles WHERE id = ?";
