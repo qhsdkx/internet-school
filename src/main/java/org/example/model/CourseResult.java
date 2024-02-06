@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 public class CourseResult {
 
-    Long id;
-    Integer score;
-    String feedback;
-    LocalDate endDate;
-    Long userId;
+    private Long id;
+    private Integer score;
+    private String feedback;
+    private LocalDate endDate;
+    private Long userId;
 
     public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, Long userId) {
         this.id = id;

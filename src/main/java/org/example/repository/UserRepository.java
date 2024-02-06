@@ -19,7 +19,7 @@ public class UserRepository {
     public static final String DELETE_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
     public static final String DELETE_USER_ROLE_LINK_QUERY = "DELETE FROM user_role_links WHERE user_id = ?";
     public static final String DELETE_USER_COURSE_LINK_QUERY = "DELETE FROM user_course_links WHERE user_id = ?";
-    static final String DELETE_USER_COURSE_RESULT_LINK_QUERY = "DELETE FROM course_results WHERE user_id = ?";
+    public static final String DELETE_USER_COURSE_RESULT_LINK_QUERY = "DELETE FROM course_results WHERE user_id = ?";
 
     public UserRepository(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -66,8 +66,6 @@ public class UserRepository {
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getLogin());
             preparedStatement.setString(4, user.getPassword());
-            System.out.println("User was added in DB\n");
-           //preparedStatement.setDate(5, Date.valueOf(user.getBirthDay()));
             int value = preparedStatement.executeUpdate();
             if (value == 1) {
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

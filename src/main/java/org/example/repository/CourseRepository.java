@@ -14,7 +14,7 @@ public class CourseRepository {
 
     public static final String SELECT_BY_ID_QUERY = "SELECT * FROM courses WHERE id = ?";
     public static final String SELECT_QUERY = "SELECT * FROM courses";
-    public static final String INSERT_QUERY = "INSERT INTO courses(name, create_date, expiration_date, status, teacher_id) VALUES (?, ?, ?, ?, ?);";
+    public static final String INSERT_QUERY = "INSERT INTO courses(name, create_date, expiration_date, status, teacher_id) VALUES (?, ?, ?, ?, ?)";
     public static final String UPDATE_BY_ID_QUERY = "UPDATE courses SET name = ?, create_date = ?, expiration_date = ?, status = ?, teacher_id = ? WHERE id = ?";
     public static final String DELETE_BY_ID_QUERY = "DELETE FROM courses WHERE id = ?";
     public static final String DELETE_USER_COURSE_LINK_QUERY = "DELETE FROM user_course_links WHERE course_id = ?";
@@ -107,21 +107,21 @@ public class CourseRepository {
             } catch (Exception e) {
                 connection.rollback();
                 throw new RepositoryException("Something went wrong with course deleting");
-            }finally{
+            } finally {
                 connection.setAutoCommit(true);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RepositoryException("Cannot delete course");
         }
     }
 
-        private void fillCourse (Course course, ResultSet rs) throws SQLException {
-            course.setId(rs.getLong("id"));
-            course.setName(rs.getString("name"));
-            course.setCreateDate(LocalDate.parse(rs.getDate("create_date").toString()));
-            course.setExpirationDate(LocalDate.parse(rs.getDate("expiration_date").toString()));
-            course.setStatus(rs.getString("status"));
-            course.setTeacherId(rs.getLong("teacher_id"));
-        }
-
+    private void fillCourse(Course course, ResultSet rs) throws SQLException {
+        course.setId(rs.getLong("id"));
+        course.setName(rs.getString("name"));
+        course.setCreateDate(LocalDate.parse(rs.getDate("create_date").toString()));
+        course.setExpirationDate(LocalDate.parse(rs.getDate("expiration_date").toString()));
+        course.setStatus(rs.getString("status"));
+        course.setTeacherId(rs.getLong("teacher_id"));
     }
+
+}
