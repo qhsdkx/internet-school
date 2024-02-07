@@ -1,16 +1,41 @@
 package org.example.model;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import jakarta.persistence.*;
+import org.hibernate.dialect.function.array.H2ArrayContainsFunction;
 
+import java.time.LocalDate;
+import java.util.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
     private String login;
     private String password;
+    @Column(name = "birth_day")
     private LocalDate birthDay;
-
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private List<Course> teacherCourses;
+    @OneToMany(mappedBy = "course_result", fetch = FetchType.LAZY)
+    private List<CourseResult> courseResults;
+    @ManyToMany
+    @JoinTable(
+            name = "student_course_links",
+            joinColumns =  {@JoinColumn(name = "user_id")},
+            inverseJoinColumns =  {@JoinColumn(name = "course_id")}
+    )
+    Set<Course> courses = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "user_role_links",
+            joinColumns =  {@JoinColumn(name = "user_id")},
+            inverseJoinColumns =  {@JoinColumn(name = "role_id")}
+    )
+    Set<Role> Roles = new HashSet<>();
     public User(Long id, String name, String surname, String login, String password, LocalDate birthDay) {
         this.id = id;
         this.name = name;
@@ -18,6 +43,8 @@ public class User {
         this.login = login;
         this.password = password;
         this.birthDay = birthDay;
+        this.courseResults = new ArrayList<>();
+        this.teacherCourses = new ArrayList<>();
     }
 
     public User() {
@@ -81,18 +108,5 @@ public class User {
                 ", password='" + password + '\'' +
                 ", birthDay=" + birthDay +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(birthDay, user.birthDay);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, login, password, birthDay);
     }
 }

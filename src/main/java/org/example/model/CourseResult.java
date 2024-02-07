@@ -1,20 +1,32 @@
 package org.example.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "course_results")
 public class CourseResult {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer score;
     private String feedback;
+    @Column(name = "end_date")
     private LocalDate endDate;
-    private Long userId;
-
-    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, Long userId) {
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<User> users;
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private List<Course> courses;
+    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate) {
         this.id = id;
         this.score = score;
         this.feedback = feedback;
         this.endDate = endDate;
-        this.userId = userId;
+        this.users = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
 
     public CourseResult() {
@@ -52,14 +64,6 @@ public class CourseResult {
         this.endDate = endDate;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return "CourseResult{" +
@@ -67,7 +71,6 @@ public class CourseResult {
                 ", score=" + score +
                 ", feedback='" + feedback + '\'' +
                 ", endDate=" + endDate +
-                ", userId=" + userId +
                 '}';
     }
 }

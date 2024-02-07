@@ -1,22 +1,40 @@
 package org.example.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "courses")
 public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "create_date")
     private LocalDate createDate;
+    @Column(name = "expiration_date")
     private LocalDate expirationDate;
     private String status;
-    private Long teacherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User teacher;
+    @ManyToMany
+    @JoinTable(
+            name = "student_course_links",
+            joinColumns =  {@JoinColumn(name = "course_id")},
+            inverseJoinColumns =  {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> users = new HashSet<>();
 
-    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status, Long teacherId) {
+    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status) {
         this.id = id;
         this.name = name;
         this.createDate = createDate;
         this.expirationDate = expirationDate;
         this.status = status;
-        this.teacherId = teacherId;
+        this.teacher = new User();
     }
 
     public Course() {
@@ -62,12 +80,12 @@ public class Course {
         this.status = status;
     }
 
-    public Long getTeacherId() {
-        return teacherId;
+    public User getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(Long teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
     }
 
     @Override
@@ -78,7 +96,6 @@ public class Course {
                 ", createDate=" + createDate +
                 ", expirationDate=" + expirationDate +
                 ", status='" + status + '\'' +
-                ", teacherId=" + teacherId +
                 '}';
     }
 
