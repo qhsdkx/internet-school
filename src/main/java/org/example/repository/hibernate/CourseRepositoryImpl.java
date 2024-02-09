@@ -3,7 +3,6 @@ package org.example.repository.hibernate;
 import org.example.exception.HibernateException;
 import org.example.exception.RepositoryException;
 import org.example.model.Course;
-import org.example.model.Role;
 import org.example.repository.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class CourseRepositoryImpl implements CourseRepository {
     private final SessionFactory sessionFactory;
-    private static final String FIND_ALL_QUERY = "FROM courses";
+    private static final String FIND_ALL_QUERY = "FROM Course";
 
     public CourseRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -29,7 +28,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public List<Course> findAll(){
+    public List<Course> findAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Course.class).list();
         } catch (HibernateException e) {
@@ -44,7 +43,7 @@ public class CourseRepositoryImpl implements CourseRepository {
                 Transaction transaction = session.beginTransaction();
                 session.save(course);
                 transaction.commit();
-            } catch (HibernateException e){
+            } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new RepositoryException("Cannot save course");
             }
@@ -53,13 +52,13 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public void update (Course course){
+    public void update(Course course) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
                 session.update(course);
                 transaction.commit();
-            } catch (HibernateException e){
+            } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new RepositoryException("Cannot update course");
             }
@@ -67,7 +66,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public void delete(Long id){
+    public void delete(Long id) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();

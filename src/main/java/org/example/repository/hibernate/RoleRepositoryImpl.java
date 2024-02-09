@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RoleRepositoryImpl implements RoleRepository {
     private final SessionFactory sessionFactory;
-    private static final String FIND_ALL_QUERY = "FROM roles";
+    private static final String FIND_ALL_QUERY = "FROM Role";
 
     public RoleRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -28,7 +28,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public List<Role> findAll(){
+    public List<Role> findAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Role.class).list();
         } catch (HibernateException e) {
@@ -43,7 +43,7 @@ public class RoleRepositoryImpl implements RoleRepository {
                 Transaction transaction = session.beginTransaction();
                 session.save(role);
                 transaction.commit();
-            } catch (HibernateException e){
+            } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new RepositoryException("Cannot save role");
             }
@@ -52,13 +52,13 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void update (Role role){
+    public void update(Role role) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
                 session.update(role);
                 transaction.commit();
-            } catch (HibernateException e){
+            } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new RepositoryException("Cannot update role");
             }
@@ -66,7 +66,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void delete(Long id){
+    public void delete(Long id) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
