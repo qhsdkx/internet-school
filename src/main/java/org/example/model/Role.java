@@ -2,7 +2,6 @@ package org.example.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,8 +15,8 @@ public class Role {
     @ManyToMany
     @JoinTable(
             name = "user_role_links",
-            joinColumns =  {@JoinColumn(name = "role_id")},
-            inverseJoinColumns =  {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private Set<User> users;
 
