@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "course_results")
@@ -20,6 +21,7 @@ public class CourseResult {
     private List<User> users;
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Course> courses;
+
     public CourseResult(Long id, Integer score, String feedback, LocalDate endDate) {
         this.id = id;
         this.score = score;
@@ -71,6 +73,21 @@ public class CourseResult {
                 ", score=" + score +
                 ", feedback='" + feedback + '\'' +
                 ", endDate=" + endDate +
+                ", users=" + users +
+                ", courses=" + courses +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseResult that = (CourseResult) o;
+        return Objects.equals(id, that.id) && Objects.equals(score, that.score) && Objects.equals(feedback, that.feedback) && Objects.equals(endDate, that.endDate) && Objects.equals(users, that.users) && Objects.equals(courses, that.courses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, score, feedback, endDate, users, courses);
     }
 }

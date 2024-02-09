@@ -1,7 +1,6 @@
 package org.example.model;
 
 import jakarta.persistence.*;
-import org.hibernate.dialect.function.array.H2ArrayContainsFunction;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -25,17 +24,18 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "student_course_links",
-            joinColumns =  {@JoinColumn(name = "user_id")},
-            inverseJoinColumns =  {@JoinColumn(name = "course_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")}
     )
-    Set<Course> courses = new HashSet<>();
+    private Set<Course> courses;
     @ManyToMany
     @JoinTable(
             name = "user_role_links",
-            joinColumns =  {@JoinColumn(name = "user_id")},
-            inverseJoinColumns =  {@JoinColumn(name = "role_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    Set<Role> Roles = new HashSet<>();
+    private Set<Role> roles;
+
     public User(Long id, String name, String surname, String login, String password, LocalDate birthDay) {
         this.id = id;
         this.name = name;
@@ -45,6 +45,8 @@ public class User {
         this.birthDay = birthDay;
         this.courseResults = new ArrayList<>();
         this.teacherCourses = new ArrayList<>();
+        this.roles = new HashSet<>();
+        this.courses = new HashSet<>();
     }
 
     public User() {
@@ -98,6 +100,38 @@ public class User {
         this.birthDay = birthDay;
     }
 
+    public List<Course> getTeacherCourses() {
+        return teacherCourses;
+    }
+
+    public void setTeacherCourses(List<Course> teacherCourses) {
+        this.teacherCourses = teacherCourses;
+    }
+
+    public List<CourseResult> getCourseResults() {
+        return courseResults;
+    }
+
+    public void setCourseResults(List<CourseResult> courseResults) {
+        this.courseResults = courseResults;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -107,6 +141,23 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", birthDay=" + birthDay +
+                ", teacherCourses=" + teacherCourses +
+                ", courseResults=" + courseResults +
+                ", courses=" + courses +
+                ", roles=" + roles +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(birthDay, user.birthDay) && Objects.equals(teacherCourses, user.teacherCourses) && Objects.equals(courseResults, user.courseResults) && Objects.equals(courses, user.courses) && Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, login, password, birthDay, teacherCourses, courseResults, courses, roles);
     }
 }

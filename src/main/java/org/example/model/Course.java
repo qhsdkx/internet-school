@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Course {
             joinColumns =  {@JoinColumn(name = "course_id")},
             inverseJoinColumns =  {@JoinColumn(name = "user_id")}
     )
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
     public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status) {
         this.id = id;
@@ -35,6 +36,7 @@ public class Course {
         this.expirationDate = expirationDate;
         this.status = status;
         this.teacher = new User();
+        this.users = new HashSet<>();
     }
 
     public Course() {
@@ -88,6 +90,14 @@ public class Course {
         this.teacher = teacher;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -96,7 +106,21 @@ public class Course {
                 ", createDate=" + createDate +
                 ", expirationDate=" + expirationDate +
                 ", status='" + status + '\'' +
+                ", teacher=" + teacher +
+                ", users=" + users +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(createDate, course.createDate) && Objects.equals(expirationDate, course.expirationDate) && Objects.equals(status, course.status) && Objects.equals(teacher, course.teacher) && Objects.equals(users, course.users);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, createDate, expirationDate, status, teacher, users);
+    }
 }
