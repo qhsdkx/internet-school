@@ -36,17 +36,17 @@ public class User {
     )
     private Set<Role> roles;
 
-    public User(Long id, String name, String surname, String login, String password, LocalDate birthDay) {
+    public User(Long id, String name, String surname, String login, String password, LocalDate birthDay, List<CourseResult> courseResults, List<Course> teacherCourses, Set<Role> roles, Set<Course> courses) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
         this.birthDay = birthDay;
-        this.courseResults = new ArrayList<>();
-        this.teacherCourses = new ArrayList<>();
-        this.roles = new HashSet<>();
-        this.courses = new HashSet<>();
+        this.courseResults = courseResults;
+        this.teacherCourses = teacherCourses;
+        this.roles = roles;
+        this.courses = courses;
     }
 
     public User() {

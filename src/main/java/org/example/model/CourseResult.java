@@ -3,7 +3,6 @@ package org.example.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,13 +21,13 @@ public class CourseResult {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Course> courses;
 
-    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate) {
+    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, List<User> users, List<Course> courses) {
         this.id = id;
         this.score = score;
         this.feedback = feedback;
         this.endDate = endDate;
-        this.users = new ArrayList<>();
-        this.courses = new ArrayList<>();
+        this.users = users;
+        this.courses = courses;
     }
 
     public CourseResult() {

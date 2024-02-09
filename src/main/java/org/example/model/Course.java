@@ -29,14 +29,14 @@ public class Course {
     )
     private Set<User> users;
 
-    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status) {
+    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status, User teacher, Set<User> users) {
         this.id = id;
         this.name = name;
         this.createDate = createDate;
         this.expirationDate = expirationDate;
         this.status = status;
-        this.teacher = new User();
-        this.users = new HashSet<>();
+        this.teacher = teacher;
+        this.users = users;
     }
 
     public Course() {

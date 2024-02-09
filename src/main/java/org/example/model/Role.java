@@ -21,10 +21,10 @@ public class Role {
     )
     private Set<User> users;
 
-    public Role(Long id, String name) {
+    public Role(Long id, String name, Set<User> users) {
         this.id = id;
         this.name = name;
-        this.users = new HashSet<>();
+        this.users = users;
     }
 
     public Role() {
