@@ -12,12 +12,19 @@ public class CourseResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "score")
     private Integer score;
+
+    @Column(name = "feedback")
     private String feedback;
+
     @Column(name = "end_date")
     private LocalDate endDate;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<User> users;
+
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Course> courses;
 

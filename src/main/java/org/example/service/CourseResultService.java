@@ -12,23 +12,23 @@ public class CourseResultService {
         this.courseResultRepository = courseResultRepository;
     }
 
-    public CourseResult findCourseResult(Long id) {
+    public CourseResult findById(Long id) {
         return courseResultRepository.findById(id);
     }
 
-    public List<CourseResult> findAllCourseResults() {
+    public List<CourseResult> findAll() {
         return courseResultRepository.findAll();
     }
 
-    public CourseResult saveCourseResult(CourseResult courseResult) {
+    public CourseResult save(CourseResult courseResult) {
         return courseResultRepository.save(courseResult);
     }
 
-    public void updateCourseResult(CourseResult courseResult) {
+    public void update(CourseResult courseResult) {
         courseResultRepository.update(courseResult);
     }
 
-    public void deleteCourseResult(Long id) {
+    public void delete(Long id) {
         courseResultRepository.delete(id);
     }
 }

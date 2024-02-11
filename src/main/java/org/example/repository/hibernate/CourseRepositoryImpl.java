@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CourseRepositoryImpl implements CourseRepository {
     private final SessionFactory sessionFactory;
+
     private static final String FIND_ALL_QUERY = "FROM Course";
 
     public CourseRepositoryImpl(SessionFactory sessionFactory) {

@@ -13,24 +13,37 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
+
+    @Column(name = "login")
     private String login;
+
+    @Column(name = "password")
     private String password;
+
     @Column(name = "birth_day")
     private LocalDate birthDay;
+
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Course> teacherCourses;
+
     @OneToMany(mappedBy = "course_result", fetch = FetchType.LAZY)
     private List<CourseResult> courseResults;
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course_links",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")}
     )
     private Set<Course> courses;
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role_links",
             joinColumns = {@JoinColumn(name = "user_id")},

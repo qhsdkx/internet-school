@@ -12,6 +12,7 @@ import java.util.List;
 
 public class RoleRepositoryImpl implements RoleRepository {
     private final SessionFactory sessionFactory;
+
     private static final String FIND_ALL_QUERY = "FROM Role";
 
     public RoleRepositoryImpl(SessionFactory sessionFactory) {

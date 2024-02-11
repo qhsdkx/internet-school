@@ -12,6 +12,7 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
     private final SessionFactory sessionFactory;
+
     private static final String FIND_ALL_QUERY = "FROM User";
 
     public UserRepositoryImpl(SessionFactory sessionFactory) {

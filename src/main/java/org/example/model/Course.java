@@ -13,15 +13,23 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
     @Column(name = "create_date")
     private LocalDate createDate;
+
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
+
+    @Column(name = "status")
     private String status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User teacher;
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course_links",
             joinColumns =  {@JoinColumn(name = "course_id")},
