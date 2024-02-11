@@ -22,19 +22,19 @@ public class CourseResult {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<User> users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<Course> courses;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Course course;
 
-    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, List<User> users, List<Course> courses) {
+    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, User user, Course course) {
         this.id = id;
         this.score = score;
         this.feedback = feedback;
         this.endDate = endDate;
-        this.users = users;
-        this.courses = courses;
+        this.user = user;
+        this.course = course;
     }
 
     public CourseResult() {
@@ -79,8 +79,8 @@ public class CourseResult {
                 ", score=" + score +
                 ", feedback='" + feedback + '\'' +
                 ", endDate=" + endDate +
-                ", users=" + users +
-                ", courses=" + courses +
+                ", users=" + user +
+                ", course=" + course +
                 '}';
     }
 
@@ -89,11 +89,11 @@ public class CourseResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourseResult that = (CourseResult) o;
-        return Objects.equals(id, that.id) && Objects.equals(score, that.score) && Objects.equals(feedback, that.feedback) && Objects.equals(endDate, that.endDate) && Objects.equals(users, that.users) && Objects.equals(courses, that.courses);
+        return Objects.equals(id, that.id) && Objects.equals(score, that.score) && Objects.equals(feedback, that.feedback) && Objects.equals(endDate, that.endDate) && Objects.equals(user, that.user) && Objects.equals(course, that.course);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, score, feedback, endDate, users, courses);
+        return Objects.hash(id, score, feedback, endDate, user, course);
     }
 }

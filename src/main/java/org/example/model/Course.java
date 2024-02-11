@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,13 +32,16 @@ public class Course {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "student_course_links",
+            name = "user_course_links",
             joinColumns =  {@JoinColumn(name = "course_id")},
             inverseJoinColumns =  {@JoinColumn(name = "user_id")}
     )
     private Set<User> users;
 
-    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status, User teacher, Set<User> users) {
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private List<CourseResult> courseResults;
+
+    public Course(Long id, String name, LocalDate createDate, LocalDate expirationDate, String status, User teacher, Set<User> users, List<CourseResult> courseResults) {
         this.id = id;
         this.name = name;
         this.createDate = createDate;
@@ -45,6 +49,7 @@ public class Course {
         this.status = status;
         this.teacher = teacher;
         this.users = users;
+        this.courseResults = courseResults;
     }
 
     public Course() {
@@ -116,6 +121,7 @@ public class Course {
                 ", status='" + status + '\'' +
                 ", teacher=" + teacher +
                 ", users=" + users +
+                ", courseResults=" + courseResults +
                 '}';
     }
 
@@ -124,11 +130,20 @@ public class Course {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(createDate, course.createDate) && Objects.equals(expirationDate, course.expirationDate) && Objects.equals(status, course.status) && Objects.equals(teacher, course.teacher) && Objects.equals(users, course.users);
+        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(createDate, course.createDate) && Objects.equals(expirationDate, course.expirationDate) && Objects.equals(status, course.status) && Objects.equals(teacher, course.teacher) && Objects.equals(users, course.users) && Objects.equals(courseResults, course.courseResults);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, createDate, expirationDate, status, teacher, users);
+        return Objects.hash(id, name, createDate, expirationDate, status, teacher, users, courseResults);
     }
+
+    public List<CourseResult> getCourseResults() {
+        return courseResults;
+    }
+
+    public void setCourseResults(List<CourseResult> courseResults) {
+        this.courseResults = courseResults;
+    }
+
 }

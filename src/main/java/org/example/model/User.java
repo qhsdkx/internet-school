@@ -26,18 +26,18 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "birth_day")
-    private LocalDate birthDay;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private List<Course> teacherCourses;
 
-    @OneToMany(mappedBy = "course_result", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<CourseResult> courseResults;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "student_course_links",
+            name = "user_course_links",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")}
     )
@@ -51,13 +51,13 @@ public class User {
     )
     private Set<Role> roles;
 
-    public User(Long id, String name, String surname, String login, String password, LocalDate birthDay, List<CourseResult> courseResults, List<Course> teacherCourses, Set<Role> roles, Set<Course> courses) {
+    public User(Long id, String name, String surname, String login, String password, LocalDate birthDate, List<CourseResult> courseResults, List<Course> teacherCourses, Set<Role> roles, Set<Course> courses) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
-        this.birthDay = birthDay;
+        this.birthDate = birthDate;
         this.courseResults = courseResults;
         this.teacherCourses = teacherCourses;
         this.roles = roles;
@@ -107,12 +107,12 @@ public class User {
         this.password = password;
     }
 
-    public LocalDate getBirthDay() {
-        return birthDay;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public List<Course> getTeacherCourses() {
@@ -155,7 +155,7 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", birthDay=" + birthDay +
+                ", birthDay=" + birthDate +
                 ", teacherCourses=" + teacherCourses +
                 ", courseResults=" + courseResults +
                 ", courses=" + courses +
@@ -168,11 +168,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(birthDay, user.birthDay) && Objects.equals(teacherCourses, user.teacherCourses) && Objects.equals(courseResults, user.courseResults) && Objects.equals(courses, user.courses) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(birthDate, user.birthDate) && Objects.equals(teacherCourses, user.teacherCourses) && Objects.equals(courseResults, user.courseResults) && Objects.equals(courses, user.courses) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, login, password, birthDay, teacherCourses, courseResults, courses, roles);
+        return Objects.hash(id, name, surname, login, password, birthDate, teacherCourses, courseResults, courses, roles);
     }
 }
