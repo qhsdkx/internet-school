@@ -1,11 +1,18 @@
 package org.example.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Setter
 @Entity
 @Table(name = "course_results")
 public class CourseResult {
@@ -23,77 +30,14 @@ public class CourseResult {
     private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Course course;
-
-    public CourseResult(Long id, Integer score, String feedback, LocalDate endDate, User user, Course course) {
-        this.id = id;
-        this.score = score;
-        this.feedback = feedback;
-        this.endDate = endDate;
-        this.user = user;
-        this.course = course;
-    }
-
-    public CourseResult() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    @Override
-    public String toString() {
-        return "CourseResult{" +
-                "id=" + id +
-                ", score=" + score +
-                ", feedback='" + feedback + '\'' +
-                ", endDate=" + endDate +
-                ", users=" + user +
-                ", course=" + course +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CourseResult that = (CourseResult) o;
-        return Objects.equals(id, that.id) && Objects.equals(score, that.score) && Objects.equals(feedback, that.feedback) && Objects.equals(endDate, that.endDate) && Objects.equals(user, that.user) && Objects.equals(course, that.course);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, score, feedback, endDate, user, course);
-    }
 }

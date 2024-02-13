@@ -2,6 +2,7 @@ package org.example.repository.hibernate;
 
 import org.example.exception.HibernateException;
 import org.example.exception.RepositoryException;
+import org.example.model.Role;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.hibernate.Session;
@@ -22,7 +23,11 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(User.class, id);
+            User user = session.get(User.class, id);
+            for (Role role : user.getRoles()) {
+                System.out.println(role);
+            }
+            return user;
         } catch (HibernateException e) {
             throw new RepositoryException("Cannot find user by id");
         }

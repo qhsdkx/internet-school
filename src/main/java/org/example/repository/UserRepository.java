@@ -9,4 +9,5 @@ public interface UserRepository {
     public User save(User user);
     public void update(User user);
     public void delete(Long id);
+
 }

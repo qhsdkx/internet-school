@@ -8,6 +8,8 @@
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">postgres</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
 
         <mapping class="org.example.model.User"/>
         <mapping class="org.example.model.Role"/>
