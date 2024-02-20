@@ -1,6 +1,7 @@
 package by.andron.repository.impl;
 
 import by.andron.model.Course;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import by.andron.exception.RepositoryException;
 import by.andron.repository.CourseRepository;
