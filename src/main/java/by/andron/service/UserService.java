@@ -7,9 +7,12 @@ import by.andron.model.User;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.UserDto;
 import by.andron.repository.UserRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class UserService {
 

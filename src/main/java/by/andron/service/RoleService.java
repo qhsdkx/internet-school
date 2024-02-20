@@ -6,9 +6,12 @@ import by.andron.model.Role;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.RoleDto;
 import by.andron.repository.RoleRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class RoleService {
 

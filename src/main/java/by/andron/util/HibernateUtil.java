@@ -8,6 +8,7 @@ import by.andron.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Component;
 
 @UtilityClass
 public class HibernateUtil {

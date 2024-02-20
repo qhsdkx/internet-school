@@ -6,9 +6,12 @@ import by.andron.model.Course;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.CourseDto;
 import by.andron.repository.CourseRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class CourseService {
 
