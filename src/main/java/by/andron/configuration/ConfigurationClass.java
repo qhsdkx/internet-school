@@ -1,9 +1,14 @@
 package by.andron.configuration;
 
+import by.andron.mapper.UserMapper;
+import by.andron.mapper.UserMapperImpl;
 import by.andron.model.Course;
 import by.andron.model.CourseResult;
 import by.andron.model.Role;
 import by.andron.model.User;
+import by.andron.repository.UserRepository;
+import by.andron.repository.impl.UserRepositoryImpl;
+import by.andron.service.UserService;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;

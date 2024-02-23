@@ -1,6 +1,7 @@
 package by.andron.service;
 
 
+import by.andron.annotation.Profiling;
 import by.andron.dto.UserCreationDto;
 import by.andron.mapper.UserMapper;
 import by.andron.model.User;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Profiling
 @Service
 @RequiredArgsConstructor
 public class UserService {

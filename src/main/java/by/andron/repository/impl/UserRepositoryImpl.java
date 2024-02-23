@@ -1,7 +1,7 @@
 package by.andron.repository.impl;
 
+import by.andron.annotation.Profiling;
 import by.andron.model.User;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import by.andron.exception.RepositoryException;
 import by.andron.repository.UserRepository;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Profiling()
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
