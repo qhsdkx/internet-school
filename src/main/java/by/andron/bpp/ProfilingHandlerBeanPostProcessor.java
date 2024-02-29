@@ -1,17 +1,12 @@
 package by.andron.bpp;
 
 import by.andron.annotation.Profiling;
-import by.andron.controller.ProfilingController;
+import by.andron.bpp.controller.ProfilingController;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import java.lang.management.ManagementFactory;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;

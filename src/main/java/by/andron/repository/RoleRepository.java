@@ -12,7 +12,7 @@ public interface RoleRepository {
 
     Role save(Role role);
 
-    void update(Role role);
+    void update(Long id, Role role);
 
     void delete(Long id);
 

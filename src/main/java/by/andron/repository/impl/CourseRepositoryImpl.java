@@ -53,11 +53,13 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public void update(Course course) {
+    public void update(Long id, Course course) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(course);
+                Course oldCourse = session.get(Course.class, id);
+                changeCourses(oldCourse, course);
+                session.merge(oldCourse);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -79,6 +81,17 @@ public class CourseRepositoryImpl implements CourseRepository {
                 throw new RepositoryException("Cannot delete course");
             }
         }
+    }
+
+    private void changeCourses(Course oldCourse, Course course) {
+        oldCourse.setId(course.getId());
+        oldCourse.setName(course.getName());
+        oldCourse.setStatus(course.getStatus());
+        oldCourse.setTeacher(course.getTeacher());
+        oldCourse.setCourseResults(course.getCourseResults());
+        oldCourse.setUsers(course.getUsers());
+        oldCourse.setCreateDate(course.getCreateDate());
+        oldCourse.setExpirationDate(course.getExpirationDate());
     }
 
 }

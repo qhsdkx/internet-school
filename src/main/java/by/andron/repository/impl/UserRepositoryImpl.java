@@ -1,6 +1,5 @@
 package by.andron.repository.impl;
 
-import by.andron.annotation.Profiling;
 import by.andron.model.User;
 import lombok.RequiredArgsConstructor;
 import by.andron.exception.RepositoryException;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Profiling()
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
@@ -55,11 +53,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(User user) {
+    public void update(Long id, User user) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(user);
+                User oldUser = session.get(User.class, id);
+                changeUsers(oldUser, user);
+                session.merge(oldUser);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -81,6 +81,19 @@ public class UserRepositoryImpl implements UserRepository {
                 throw new RepositoryException("Cannot delete user");
             }
         }
+    }
+
+    private void changeUsers(User oldUser, User user) {
+        oldUser.setId(user.getId());
+        oldUser.setName(user.getName());
+        oldUser.setSurname(user.getSurname());
+        oldUser.setLogin(user.getLogin());
+        oldUser.setBirthDate(user.getBirthDate());
+        oldUser.setPassword(user.getPassword());
+        oldUser.setCourseResults(user.getCourseResults());
+        oldUser.setCourses(user.getCourses());
+        oldUser.setRoles(user.getRoles());
+        oldUser.setTeacherCourses(user.getTeacherCourses());
     }
 
 }

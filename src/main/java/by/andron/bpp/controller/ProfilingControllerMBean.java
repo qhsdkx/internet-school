@@ -1,4 +1,4 @@
-package by.andron.controller;
+package by.andron.bpp.controller;
 
 public interface ProfilingControllerMBean {
 

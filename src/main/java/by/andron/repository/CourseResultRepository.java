@@ -12,7 +12,7 @@ public interface CourseResultRepository {
 
     CourseResult save(CourseResult role);
 
-    void update(CourseResult role);
+    void update(Long id, CourseResult role);
 
     void delete(Long id);
 

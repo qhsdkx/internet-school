@@ -33,8 +33,8 @@ public class CourseService {
         return courseMapper.toDto(courseRepository.save(entity));
     }
 
-    public void update(CourseCreationDto courseCreationDto) {
-        courseRepository.update(courseMapper.toEntity(courseCreationDto));
+    public void update(Long id, CourseCreationDto courseCreationDto) {
+        courseRepository.update(id, courseMapper.toEntity(courseCreationDto));
     }
 
     public void delete(Long id) {

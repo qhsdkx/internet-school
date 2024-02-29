@@ -54,11 +54,13 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void update(Role role) {
+    public void update(Long id, Role role) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(role);
+                Role oldRole = session.get(Role.class, id);
+                changeRoles(oldRole, role);
+                session.merge(oldRole);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -80,6 +82,13 @@ public class RoleRepositoryImpl implements RoleRepository {
                 throw new RepositoryException("Cannot delete role");
             }
         }
+    }
+
+
+    private void changeRoles(Role oldRole, Role role) {
+        oldRole.setId(role.getId());
+        oldRole.setName(role.getName());
+        oldRole.setUsers(role.getUsers());
     }
 
 }

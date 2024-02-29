@@ -1,4 +1,4 @@
-package by.andron.controller;
+package by.andron.bpp.controller;
 
 import lombok.Getter;
 import lombok.Setter;

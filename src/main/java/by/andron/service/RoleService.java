@@ -33,8 +33,8 @@ public class RoleService {
         return roleMapper.toDto(roleRepository.save(entity));
     }
 
-    public void update(RoleCreationDto roleCreationDto) {
-        roleRepository.update(roleMapper.toEntity(roleCreationDto));
+    public void update(Long id, RoleCreationDto roleCreationDto) {
+        roleRepository.update(id, roleMapper.toEntity(roleCreationDto));
     }
 
     public void delete(Long id) {

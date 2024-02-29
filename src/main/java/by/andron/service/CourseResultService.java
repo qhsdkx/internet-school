@@ -33,8 +33,8 @@ public class CourseResultService {
         return courseResultMapper.toDto(courseResultRepository.save(entity));
     }
 
-    public void update(CourseResultCreationDto courseResultCreationDto) {
-        courseResultRepository.update(courseResultMapper.toEntity(courseResultCreationDto));
+    public void update(Long id, CourseResultCreationDto courseResultCreationDto) {
+        courseResultRepository.update(id, courseResultMapper.toEntity(courseResultCreationDto));
     }
 
     public void delete(Long id) {
