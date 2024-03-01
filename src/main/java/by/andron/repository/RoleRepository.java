@@ -3,10 +3,11 @@ package by.andron.repository;
 import by.andron.model.Role;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoleRepository {
 
-    Role findById(Long id);
+    Optional<Role> findById(Long id);
 
     List<Role> findAll(int page, int size);
 

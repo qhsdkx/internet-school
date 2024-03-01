@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class CourseResultRepositoryImpl implements CourseResultRepository {
     private static final String FIND_ALL_QUERY = "FROM CourseResult";
 
     @Override
-    public CourseResult findById(Long id) {
+    public Optional<CourseResult> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(CourseResult.class, id);
+            return Optional.of(session.get(CourseResult.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find course result by id");
         }

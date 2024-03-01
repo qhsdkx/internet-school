@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class RoleRepositoryImpl implements RoleRepository {
     private static final String FIND_ALL_QUERY = "FROM Role";
 
     @Override
-    public Role findById(Long id) {
+    public Optional<Role> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Role.class, id);
+            return Optional.of(session.get(Role.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find role by id");
         }

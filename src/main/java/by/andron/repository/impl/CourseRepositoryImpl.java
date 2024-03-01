@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class CourseRepositoryImpl implements CourseRepository {
     private static final String FIND_ALL_QUERY = "FROM Course";
 
     @Override
-    public Course findById(Long id) {
+    public Optional<Course> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Course.class, id);
+            return Optional.of(session.get(Course.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find course by id");
         }
