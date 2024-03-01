@@ -38,7 +38,7 @@ public class RoleController {
 
     @PostMapping
     public ResponseEntity<RoleDto> save (@RequestBody RoleCreationDto dto){
-        return new ResponseEntity<>(service.save(dto), HttpStatus.OK);
+        return new ResponseEntity<>(service.save(dto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
@@ -50,7 +50,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete (@PathVariable("id") Long id){
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

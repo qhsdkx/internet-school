@@ -37,7 +37,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> save (@RequestBody UserCreationDto userCreationDto){
-        return new ResponseEntity<> (service.save(userCreationDto), HttpStatus.OK);
+        return new ResponseEntity<> (service.save(userCreationDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
@@ -49,7 +49,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id){
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

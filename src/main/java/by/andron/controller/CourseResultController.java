@@ -38,7 +38,7 @@ public class CourseResultController {
 
     @PostMapping
     public ResponseEntity<CourseResultDto> save (@RequestBody CourseResultCreationDto courseResultCreationDto){
-        return new ResponseEntity<>(service.save(courseResultCreationDto), HttpStatus.OK);
+        return new ResponseEntity<>(service.save(courseResultCreationDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
@@ -50,7 +50,7 @@ public class CourseResultController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id){
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
