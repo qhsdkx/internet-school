@@ -27,21 +27,37 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public List<RoleDto> findAll(int page, int size) {
-        return roleRepository.findAll(page, size).stream()
-                .map(roleMapper::toDto).toList();
+        try {
+            return roleRepository.findAll(page, size).stream()
+                    .map(roleMapper::toDto).toList();
+        } catch (Exception e) {
+            throw new ServiceException("Cannot find all roles in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public RoleDto save(RoleCreationDto roleCreationDto) {
-        Role entity = roleMapper.toEntity(roleCreationDto);
-        return roleMapper.toDto(roleRepository.save(entity));
+        try {
+            Role entity = roleMapper.toEntity(roleCreationDto);
+            return roleMapper.toDto(roleRepository.save(entity));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot save this role in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void update(Long id, RoleCreationDto roleCreationDto) {
-        roleRepository.update(id, roleMapper.toEntity(roleCreationDto));
+        try {
+            roleRepository.update(id, roleMapper.toEntity(roleCreationDto));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot update this user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void delete(Long id) {
-        roleRepository.delete(id);
+        try {
+            roleRepository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("Cannot delete this user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

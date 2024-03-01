@@ -28,21 +28,37 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDto> findAll(int page, int size) {
-        return userRepository.findAll(page, size).stream()
-                .map(userMapper::toDto).toList();
+        try {
+            return userRepository.findAll(page, size).stream()
+                    .map(userMapper::toDto).toList();
+        } catch (Exception e) {
+            throw new ServiceException("Cannot find all users in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public UserDto save(UserCreationDto userCreationDto) {
-        User entity = userMapper.toEntity(userCreationDto);
-        return userMapper.toDto(userRepository.save(entity));
+        try {
+            User entity = userMapper.toEntity(userCreationDto);
+            return userMapper.toDto(userRepository.save(entity));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot save user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void update(Long id, UserCreationDto userCreationDto) {
-        userRepository.update(id, userMapper.toEntity(userCreationDto));
+        try {
+            userRepository.update(id, userMapper.toEntity(userCreationDto));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot update this user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void delete(Long id) {
-        userRepository.delete(id);
+        try {
+            userRepository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("Cannot delete this user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

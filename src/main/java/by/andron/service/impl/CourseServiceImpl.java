@@ -27,21 +27,37 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public List<CourseDto> findAll(int page, int size) {
-        return courseRepository.findAll(page, size).stream()
-                .map(courseMapper::toDto).toList();
+        try {
+            return courseRepository.findAll(page, size).stream()
+                    .map(courseMapper::toDto).toList();
+        } catch (Exception e) {
+            throw new ServiceException("Cannot find all courses in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public CourseDto save(CourseCreationDto courseCreationDto) {
-        Course entity = courseMapper.toEntity(courseCreationDto);
-        return courseMapper.toDto(courseRepository.save(entity));
+        try {
+            Course entity = courseMapper.toEntity(courseCreationDto);
+            return courseMapper.toDto(courseRepository.save(entity));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot save course in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void update(Long id, CourseCreationDto courseCreationDto) {
-        courseRepository.update(id, courseMapper.toEntity(courseCreationDto));
+        try {
+            courseRepository.update(id, courseMapper.toEntity(courseCreationDto));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot update user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void delete(Long id) {
-        courseRepository.delete(id);
+        try {
+            courseRepository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("Cannot delete this user in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

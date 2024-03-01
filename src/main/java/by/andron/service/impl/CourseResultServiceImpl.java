@@ -27,21 +27,37 @@ public class CourseResultServiceImpl implements CourseResultService {
     }
 
     public List<CourseResultDto> findAll(int page, int size) {
-        return courseResultRepository.findAll(page, size).stream()
-                .map(courseResultMapper::toDto).toList();
+        try {
+            return courseResultRepository.findAll(page, size).stream()
+                    .map(courseResultMapper::toDto).toList();
+        } catch (Exception e) {
+            throw new ServiceException("Cannot find all course results in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public CourseResultDto save(CourseResultCreationDto courseResultCreationDto) {
-        CourseResult entity = courseResultMapper.toEntity(courseResultCreationDto);
-        return courseResultMapper.toDto(courseResultRepository.save(entity));
+        try {
+            CourseResult entity = courseResultMapper.toEntity(courseResultCreationDto);
+            return courseResultMapper.toDto(courseResultRepository.save(entity));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot save this course result in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void update(Long id, CourseResultCreationDto courseResultCreationDto) {
-        courseResultRepository.update(id, courseResultMapper.toEntity(courseResultCreationDto));
+        try {
+            courseResultRepository.update(id, courseResultMapper.toEntity(courseResultCreationDto));
+        } catch (Exception e) {
+            throw new ServiceException("Cannot update this course result in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void delete(Long id) {
-        courseResultRepository.delete(id);
+        try {
+            courseResultRepository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("Cannot delete this course result in service", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
