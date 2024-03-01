@@ -8,7 +8,7 @@ public interface UserRepository {
 
     User findById(Long id);
 
-    List<User> findAll();
+    List<User> findAll(int page, int size);
 
     User save(User user);
 

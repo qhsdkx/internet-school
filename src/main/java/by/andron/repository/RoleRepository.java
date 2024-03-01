@@ -8,7 +8,7 @@ public interface RoleRepository {
 
     Role findById(Long id);
 
-    List<Role> findAll();
+    List<Role> findAll(int page, int size);
 
     Role save(Role role);
 

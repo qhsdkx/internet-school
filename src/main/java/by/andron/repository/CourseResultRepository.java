@@ -8,7 +8,7 @@ public interface CourseResultRepository {
 
     CourseResult findById(Long id);
 
-    List<CourseResult> findAll();
+    List<CourseResult> findAll(int page, int size);
 
     CourseResult save(CourseResult role);
 

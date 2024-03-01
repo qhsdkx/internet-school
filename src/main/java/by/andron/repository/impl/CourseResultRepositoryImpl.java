@@ -7,6 +7,7 @@ import by.andron.repository.CourseResultRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -30,9 +31,12 @@ public class CourseResultRepositoryImpl implements CourseResultRepository {
     }
 
     @Override
-    public List<CourseResult> findAll() {
+    public List<CourseResult> findAll(int page, int size) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, CourseResult.class).list();
+            Query<CourseResult> query = session.createQuery(FIND_ALL_QUERY, CourseResult.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.list();
         } catch (Exception e) {
             throw new RepositoryException("Cannot find all course results");
         }

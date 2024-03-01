@@ -8,7 +8,7 @@ public interface CourseRepository {
 
     Course findById(Long id);
 
-    List<Course> findAll();
+    List<Course> findAll(int page, int size);
 
     Course save(Course role);
 
