@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(userRepository.findById(id));
     }
 
-    public List<UserDto> findAll() {
-        return userRepository.findAll().stream()
+    public List<UserDto> findAll(int page, int size) {
+        return userRepository.findAll(page, size).stream()
                 .map(userMapper::toDto).toList();
     }
 

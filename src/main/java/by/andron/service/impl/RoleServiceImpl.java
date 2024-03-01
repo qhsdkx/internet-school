@@ -23,8 +23,8 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.toDto(roleRepository.findById(id));
     }
 
-    public List<RoleDto> findAll() {
-        return roleRepository.findAll().stream()
+    public List<RoleDto> findAll(int page, int size) {
+        return roleRepository.findAll(page, size).stream()
                 .map(roleMapper::toDto).toList();
     }
 

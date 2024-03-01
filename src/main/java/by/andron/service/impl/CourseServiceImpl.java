@@ -23,8 +23,8 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDto(courseRepository.findById(id));
     }
 
-    public List<CourseDto> findAll() {
-        return courseRepository.findAll().stream()
+    public List<CourseDto> findAll(int page, int size) {
+        return courseRepository.findAll(page, size).stream()
                 .map(courseMapper::toDto).toList();
     }
 

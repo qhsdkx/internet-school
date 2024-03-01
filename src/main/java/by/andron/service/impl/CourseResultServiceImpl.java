@@ -23,8 +23,8 @@ public class CourseResultServiceImpl implements CourseResultService {
         return courseResultMapper.toDto(courseResultRepository.findById(id));
     }
 
-    public List<CourseResultDto> findAll() {
-        return courseResultRepository.findAll().stream()
+    public List<CourseResultDto> findAll(int page, int size) {
+        return courseResultRepository.findAll(page, size).stream()
                 .map(courseResultMapper::toDto).toList();
     }
 
