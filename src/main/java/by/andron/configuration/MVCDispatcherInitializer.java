@@ -16,7 +16,7 @@ public class MVCDispatcherInitializer extends AbstractAnnotationConfigDispatcher
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] {"/"};
+        return new String[] {"/*"};
     }
 
 }
