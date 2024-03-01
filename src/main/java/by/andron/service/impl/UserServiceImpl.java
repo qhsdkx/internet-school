@@ -3,12 +3,14 @@ package by.andron.service.impl;
 
 import by.andron.annotation.Profiling;
 import by.andron.dto.UserCreationDto;
+import by.andron.exception.ServiceException;
 import by.andron.mapper.UserMapper;
 import by.andron.model.User;
 import by.andron.service.UserService;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.UserDto;
 import by.andron.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     public UserDto findById(Long id) {
-        return userMapper.toDto(userRepository.findById(id));
+        User user = userRepository.findById(id).orElseThrow(() -> new ServiceException("Cannot find user by id in service", HttpStatus.BAD_REQUEST));
+        return userMapper.toDto(user);
     }
 
     public List<UserDto> findAll(int page, int size) {

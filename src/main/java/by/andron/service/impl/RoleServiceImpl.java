@@ -1,12 +1,14 @@
 package by.andron.service.impl;
 
 import by.andron.dto.RoleCreationDto;
+import by.andron.exception.ServiceException;
 import by.andron.mapper.RoleMapper;
 import by.andron.model.Role;
 import by.andron.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.RoleDto;
 import by.andron.repository.RoleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
 
     public RoleDto findById(Long id) {
-        return roleMapper.toDto(roleRepository.findById(id));
+        Role role = roleRepository.findById(id).orElseThrow(() -> new ServiceException("Cannot find role by id in service", HttpStatus.BAD_REQUEST));
+        return roleMapper.toDto(role);
     }
 
     public List<RoleDto> findAll(int page, int size) {

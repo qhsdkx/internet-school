@@ -1,12 +1,14 @@
 package by.andron.service.impl;
 
 import by.andron.dto.CourseResultCreationDto;
+import by.andron.exception.ServiceException;
 import by.andron.mapper.CourseResultMapper;
 import by.andron.service.CourseResultService;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.CourseResultDto;
 import by.andron.model.CourseResult;
 import by.andron.repository.CourseResultRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,8 @@ public class CourseResultServiceImpl implements CourseResultService {
     private final CourseResultMapper courseResultMapper;
 
     public CourseResultDto findById(Long id) {
-        return courseResultMapper.toDto(courseResultRepository.findById(id));
+        CourseResult courseResult = courseResultRepository.findById(id).orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
+        return courseResultMapper.toDto(courseResult);
     }
 
     public List<CourseResultDto> findAll(int page, int size) {
