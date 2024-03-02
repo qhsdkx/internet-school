@@ -1,5 +1,6 @@
 package by.andron.exception.handler;
 
+import by.andron.exception.RepositoryException;
 import by.andron.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -11,14 +12,9 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ExceptionDto handleRepositoryException(HttpServletRequest request, Exception ex, HttpStatus status){
-        return new ExceptionDto(ex.getMessage(), status.value(), LocalDateTime.now(), request.getRequestURI());
-    }
-
     @ExceptionHandler(ServiceException.class)
-    public ExceptionDto handlesServiceException(HttpServletRequest request, Exception ex, HttpStatus status){
-        return new ExceptionDto(ex.getMessage(), status.value(), LocalDateTime.now(), request.getRequestURI());
+    public ExceptionDto handlesServiceException(HttpServletRequest request, ServiceException ex){
+        return new ExceptionDto(ex.getMessage(), ex.getHttpStatus().value(), LocalDateTime.now(), request.getRequestURI());
     }
 
 }
