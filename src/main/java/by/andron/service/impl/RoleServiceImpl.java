@@ -22,7 +22,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
 
     public RoleDto findById(Long id) {
-        Role role = roleRepository.findById(id).orElseThrow(() -> new ServiceException("Cannot find role by id in service", HttpStatus.BAD_REQUEST));
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Cannot find role by id in service", HttpStatus.BAD_REQUEST));
         return roleMapper.toDto(role);
     }
 

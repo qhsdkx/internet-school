@@ -22,7 +22,8 @@ public class CourseResultServiceImpl implements CourseResultService {
     private final CourseResultMapper courseResultMapper;
 
     public CourseResultDto findById(Long id) {
-        CourseResult courseResult = courseResultRepository.findById(id).orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
+        CourseResult courseResult = courseResultRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
         return courseResultMapper.toDto(courseResult);
     }
 

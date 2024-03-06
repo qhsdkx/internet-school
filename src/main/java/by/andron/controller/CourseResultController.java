@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/courseresults")
+@RequestMapping(value = "/course-results")
 @RequiredArgsConstructor
 public class CourseResultController {
 
