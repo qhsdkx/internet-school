@@ -18,18 +18,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionDto> handleException(Exception ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(),LocalDateTime.now(), request.getRequestURI()), HttpStatus.OK);
+        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(),LocalDateTime.now(), request.getRequestURI()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionDto> handleValidationException(ValidationException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now(), request.getRequestURI()), HttpStatus.OK);
+        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now(), request.getRequestURI()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ServiceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionDto> handlesServiceException(HttpServletRequest request, ServiceException ex){
-        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), ex.getHttpStatus().value(), LocalDateTime.now(), request.getRequestURI()), HttpStatus.OK);
+        return new ResponseEntity<>(new ExceptionDto(ex.getMessage(), ex.getHttpStatus().value(), LocalDateTime.now(), request.getRequestURI()), HttpStatus.BAD_REQUEST);
     }
 
 }
