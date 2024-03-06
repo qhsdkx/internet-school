@@ -7,9 +7,13 @@ import by.andron.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
@@ -18,18 +22,21 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String FIND_ALL_QUERY = "FROM User";
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(User.class, id);
+            return Optional.of(session.get(User.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find user by id");
         }
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll(int page, int size) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, User.class).list();
+            Query<User> query = session.createQuery(FIND_ALL_QUERY, User.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.list();
         } catch (Exception e) {
             throw new RepositoryException("Cannot find all users");
         }
@@ -51,11 +58,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(User user) {
+    public void update(Long id, User user) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(user);
+                User oldUser = session.get(User.class, id);
+                changeUsers(oldUser, user);
+                session.merge(oldUser);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -77,6 +86,19 @@ public class UserRepositoryImpl implements UserRepository {
                 throw new RepositoryException("Cannot delete user");
             }
         }
+    }
+
+    private void changeUsers(User oldUser, User user) {
+        oldUser.setId(user.getId());
+        oldUser.setName(user.getName());
+        oldUser.setSurname(user.getSurname());
+        oldUser.setLogin(user.getLogin());
+        oldUser.setBirthDate(user.getBirthDate());
+        oldUser.setPassword(user.getPassword());
+        oldUser.setCourseResults(user.getCourseResults());
+        oldUser.setCourses(user.getCourses());
+        oldUser.setRoles(user.getRoles());
+        oldUser.setTeacherCourses(user.getTeacherCourses());
     }
 
 }

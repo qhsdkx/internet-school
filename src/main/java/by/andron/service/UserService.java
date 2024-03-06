@@ -1,41 +1,14 @@
 package by.andron.service;
 
-
 import by.andron.dto.UserCreationDto;
-import by.andron.mapper.UserMapper;
-import by.andron.model.User;
-import lombok.RequiredArgsConstructor;
 import by.andron.dto.UserDto;
-import by.andron.repository.UserRepository;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public class UserService {
-
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-
-    public UserDto findById(Long id) {
-        return userMapper.toDto(userRepository.findById(id));
-    }
-
-    public List<UserDto> findAll() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toDto).toList();
-    }
-
-    public UserDto save(UserCreationDto userCreationDto) {
-        User entity = userMapper.toEntity(userCreationDto);
-        return userMapper.toDto(userRepository.save(entity));
-    }
-
-    public void update(UserCreationDto userCreationDto) {
-        userRepository.update(userMapper.toEntity(userCreationDto));
-    }
-
-    public void delete(Long id) {
-        userRepository.delete(id);
-    }
-
+public interface UserService {
+    UserDto findById(Long id);
+    List<UserDto> findAll(int page, int size);
+    UserDto save(UserCreationDto userCreationDto);
+    void update(Long id, UserCreationDto userCreationDto);
+    void delete(Long id);
 }

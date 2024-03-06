@@ -1,2 +1,2 @@
-# JDBCExample
-Repo for examples of me-developed CRUD operations.
+# Internet-School
+Spring online-school pet-project

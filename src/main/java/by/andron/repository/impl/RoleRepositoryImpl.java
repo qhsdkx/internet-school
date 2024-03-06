@@ -7,9 +7,13 @@ import by.andron.repository.RoleRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 @RequiredArgsConstructor
 public class RoleRepositoryImpl implements RoleRepository {
 
@@ -18,18 +22,21 @@ public class RoleRepositoryImpl implements RoleRepository {
     private static final String FIND_ALL_QUERY = "FROM Role";
 
     @Override
-    public Role findById(Long id) {
+    public Optional<Role> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Role.class, id);
+            return Optional.of(session.get(Role.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find role by id");
         }
     }
 
     @Override
-    public List<Role> findAll() {
+    public List<Role> findAll(int page, int size) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, Role.class).list();
+            Query<Role> query = session.createQuery(FIND_ALL_QUERY, Role.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.list();
         } catch (Exception e) {
             throw new RepositoryException("Cannot find all roles");
         }
@@ -51,11 +58,13 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void update(Role role) {
+    public void update(Long id, Role role) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(role);
+                Role oldRole = session.get(Role.class, id);
+                changeRoles(oldRole, role);
+                session.merge(oldRole);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -77,6 +86,13 @@ public class RoleRepositoryImpl implements RoleRepository {
                 throw new RepositoryException("Cannot delete role");
             }
         }
+    }
+
+
+    private void changeRoles(Role oldRole, Role role) {
+        oldRole.setId(role.getId());
+        oldRole.setName(role.getName());
+        oldRole.setUsers(role.getUsers());
     }
 
 }

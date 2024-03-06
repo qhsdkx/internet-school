@@ -7,9 +7,13 @@ import by.andron.repository.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 @RequiredArgsConstructor
 public class CourseRepositoryImpl implements CourseRepository {
 
@@ -18,18 +22,21 @@ public class CourseRepositoryImpl implements CourseRepository {
     private static final String FIND_ALL_QUERY = "FROM Course";
 
     @Override
-    public Course findById(Long id) {
+    public Optional<Course> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Course.class, id);
+            return Optional.of(session.get(Course.class, id));
         } catch (Exception e) {
             throw new RepositoryException("Cannot find course by id");
         }
     }
 
     @Override
-    public List<Course> findAll() {
+    public List<Course> findAll(int page, int size) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, Course.class).list();
+            Query<Course> query = session.createQuery(FIND_ALL_QUERY, Course.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.list();
         } catch (Exception e) {
             throw new RepositoryException("Cannot find all courses");
         }
@@ -51,11 +58,13 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public void update(Course course) {
+    public void update(Long id, Course course) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 Transaction transaction = session.beginTransaction();
-                session.merge(course);
+                Course oldCourse = session.get(Course.class, id);
+                changeCourses(oldCourse, course);
+                session.merge(oldCourse);
                 transaction.commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -77,6 +86,17 @@ public class CourseRepositoryImpl implements CourseRepository {
                 throw new RepositoryException("Cannot delete course");
             }
         }
+    }
+
+    private void changeCourses(Course oldCourse, Course course) {
+        oldCourse.setId(course.getId());
+        oldCourse.setName(course.getName());
+        oldCourse.setStatus(course.getStatus());
+        oldCourse.setTeacher(course.getTeacher());
+        oldCourse.setCourseResults(course.getCourseResults());
+        oldCourse.setUsers(course.getUsers());
+        oldCourse.setCreateDate(course.getCreateDate());
+        oldCourse.setExpirationDate(course.getExpirationDate());
     }
 
 }
