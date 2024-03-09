@@ -12,16 +12,14 @@ repositories {
 
 dependencies {
     implementation 'org.postgresql:postgresql:42.7.1'
-    implementation 'org.hibernate:hibernate-core:6.4.3.Final'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    implementation 'org.springframework:spring-webmvc:6.1.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
-    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.springframework.boot:spring-boot:3.2.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.3'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.3'
 }
 
 test {
