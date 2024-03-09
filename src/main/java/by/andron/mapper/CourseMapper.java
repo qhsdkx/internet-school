@@ -21,7 +21,7 @@ public interface CourseMapper {
     CourseDto toDto(Course course);
 
     @Mapping(target = "teacherId", source = "teacher", qualifiedByName = "mapTeacherToTeacherId")
-    List<CourseDto> toDto(List<CourseDto> roles);
+    List<CourseDto> toDto(List<Course> courses);
 
     @Named("mapTeacherIdToTeacher")
     default User mapTeacherIdToTeacher(Long userId) {

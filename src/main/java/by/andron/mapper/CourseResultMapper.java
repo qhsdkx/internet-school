@@ -26,7 +26,7 @@ public interface CourseResultMapper {
 
     @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserToUserId")
     @Mapping(target = "courseId", source = "course", qualifiedByName = "mapCourseToCourseId")
-    List<CourseResultDto> toDto(List<CourseResultDto> roles);
+    List<CourseResultDto> toDto(List<CourseResult> courseResults);
 
     @Named("mapUserIdToUser")
     default User mapUserIdToUser(Long userId) {
