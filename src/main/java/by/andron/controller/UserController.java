@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,9 +29,8 @@ public class UserController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<UserDto>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                 @RequestParam(value = "size", defaultValue = "5") int size){
-        return new ResponseEntity<> (service.findAll(page, size), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> findAll(){
+        return new ResponseEntity<> (service.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
