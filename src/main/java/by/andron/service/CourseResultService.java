@@ -64,7 +64,6 @@ public class CourseResultService {
     }
 
     private void updateCourseResults(CourseResult courseResult, CourseResult source){
-        courseResult.setId(source.getId());
         courseResult.setCourse(source.getCourse());
         courseResult.setUser(source.getUser());
         courseResult.setScore(source.getScore());

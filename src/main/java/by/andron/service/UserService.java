@@ -64,7 +64,6 @@ public class UserService {
     }
 
     private void updateUser(User user, User source){
-        user.setId(source.getId());
         user.setName(source.getName());
         user.setSurname(source.getSurname());
         user.setLogin(source.getLogin());

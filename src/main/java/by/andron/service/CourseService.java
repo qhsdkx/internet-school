@@ -64,7 +64,6 @@ public class CourseService {
     }
 
     private void updateCourse(Course course, Course source){
-        course.setId(source.getId());
         course.setName(source.getName());
         course.setTeacher(source.getTeacher());
         course.setUsers(source.getUsers());

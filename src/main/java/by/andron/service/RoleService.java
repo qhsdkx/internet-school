@@ -64,7 +64,6 @@ public class RoleService {
     }
 
     private void updateRole(Role role, Role source){
-        role.setId(source.getId());
         role.setName(source.getName());
         role.setUsers(source.getUsers());
     }
