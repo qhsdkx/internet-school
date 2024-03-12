@@ -4,6 +4,7 @@ import by.andron.dto.RoleCreationDto;
 import by.andron.exception.ServiceException;
 import by.andron.mapper.RoleMapper;
 import by.andron.model.Role;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.RoleDto;
 import by.andron.repository.RoleRepository;
@@ -34,6 +35,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public RoleDto save(RoleCreationDto roleCreationDto) {
         try {
             Role entity = roleMapper.toEntity(roleCreationDto);
@@ -43,6 +45,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public void update(Long id, RoleCreationDto roleCreationDto) {
         try {
             Role role = roleRepository.findById(id)
@@ -55,6 +58,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             roleRepository.deleteById(id);
@@ -64,6 +68,7 @@ public class RoleService {
     }
 
     private void updateRole(Role role, Role source){
+        role.setId(source.getId());
         role.setName(source.getName());
         role.setUsers(source.getUsers());
     }

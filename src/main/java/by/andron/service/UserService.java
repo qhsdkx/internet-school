@@ -1,10 +1,12 @@
 package by.andron.service;
 
 
+import by.andron.aspect.annotation.Cacheable;
 import by.andron.dto.UserCreationDto;
 import by.andron.exception.ServiceException;
 import by.andron.mapper.UserMapper;
 import by.andron.model.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.UserDto;
 import by.andron.repository.UserRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Cacheable
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,6 +37,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public UserDto save(UserCreationDto userCreationDto) {
         try {
             User entity = userMapper.toEntity(userCreationDto);
@@ -43,6 +47,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void update(Long id, UserCreationDto userCreationDto) {
         try {
             User user = userRepository.findById(id)
@@ -55,6 +60,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             userRepository.deleteById(id);
@@ -64,6 +70,7 @@ public class UserService {
     }
 
     private void updateUser(User user, User source){
+        user.setId(source.getId());
         user.setName(source.getName());
         user.setSurname(source.getSurname());
         user.setLogin(source.getLogin());

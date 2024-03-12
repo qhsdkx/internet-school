@@ -3,6 +3,7 @@ package by.andron.service;
 import by.andron.dto.CourseResultCreationDto;
 import by.andron.exception.ServiceException;
 import by.andron.mapper.CourseResultMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import by.andron.dto.CourseResultDto;
 import by.andron.model.CourseResult;
@@ -34,6 +35,7 @@ public class CourseResultService {
         }
     }
 
+    @Transactional
     public CourseResultDto save(CourseResultCreationDto courseResultCreationDto) {
         try {
             CourseResult entity = courseResultMapper.toEntity(courseResultCreationDto);
@@ -43,6 +45,7 @@ public class CourseResultService {
         }
     }
 
+    @Transactional
     public void update(Long id, CourseResultCreationDto courseResultCreationDto) {
         try {
             CourseResult courseResult = courseResultRepository.findById(id)
@@ -55,6 +58,7 @@ public class CourseResultService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             courseResultRepository.deleteById(id);
@@ -64,6 +68,7 @@ public class CourseResultService {
     }
 
     private void updateCourseResults(CourseResult courseResult, CourseResult source){
+        courseResult.setId(source.getId());
         courseResult.setCourse(source.getCourse());
         courseResult.setUser(source.getUser());
         courseResult.setScore(source.getScore());
