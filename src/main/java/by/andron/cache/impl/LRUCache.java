@@ -3,13 +3,14 @@ package by.andron.cache.impl;
 import by.andron.cache.Cache;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class LRUCache implements Cache<Long, Object> {
 
+    private final int capacity;
     private final LinkedHashMap<Long, Object> cache;
 
     public LRUCache(int capacity) {
+        this.capacity = capacity;
         this.cache = new LinkedHashMap<>(capacity);
     }
 
@@ -23,12 +24,12 @@ public class LRUCache implements Cache<Long, Object> {
         return null;
     }
 
-    public List<Object> getAll(){
-        return cache.keySet().stream().map(this::get).toList();
-    }
-
     @Override
     public void put(Long key, Object object) {
+        if(cache.size() == capacity){
+            Long firstKey = cache.keySet().iterator().next();
+            cache.remove(firstKey);
+        }
         cache.put(key, object);
     }
 

@@ -1,5 +1,6 @@
 package by.andron.aspect;
 
+import by.andron.aspect.annotation.Cacheable;
 import by.andron.cache.Cache;
 import by.andron.cache.impl.LRUCache;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-
 
 @Aspect
 @Component
@@ -24,41 +24,58 @@ public class CacheAspect {
     }
 
     @Pointcut("execution(public !void by.andron.service.*.update(..))")
-    public void updateMethod(){
+    public void updateMethod() {
     }
 
     @Pointcut("execution(public !void by.andron.service.*.save(..))")
-    public void saveMethod(){}
-
-    @Pointcut("execution(public !void by.andron.service.*.delete(..))")
-    public void deleteMethod(){
+    public void saveMethod() {
     }
 
+    @Pointcut("execution(public !void by.andron.service.*.delete(..))")
+    public void deleteMethod() {
+    }
 
     @Around("findByIdMethod()")
-    public void cachingFindByIdResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        Long id = (Long) joinPoint.getArgs()[0];
-        if(cache.containsKey(id)){
-            return;
+    public Object cachingFindByIdResult(ProceedingJoinPoint joinPoint) throws Throwable {
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+
+        if (hasAnnotation) {
+            Long id = (Long) joinPoint.getArgs()[0];
+            if (cache.containsKey(id)) {
+                return cache.get(id);
+            } else {
+                Object retVal = joinPoint.proceed();
+                cache.put(id, retVal);
+                return retVal;
+            }
         }
-        Object retVal = joinPoint.proceed();
-        cache.put(id, retVal);
+        return joinPoint.proceed();
     }
 
     @Around("updateMethod()")
-    public void cachingSaveAndUpdateResult(ProceedingJoinPoint joinPoint) {
-        Long id = (Long) joinPoint.getArgs()[0];
-        Object object = joinPoint.getArgs()[1];
-        if(cache.containsKey(id)){
-            cache.put(id, object);
+    public Object cachingUpdateResult(ProceedingJoinPoint joinPoint) throws Throwable {
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+
+        if (hasAnnotation) {
+            Long id = (Long) joinPoint.getArgs()[0];
+            Object object = joinPoint.proceed();
+            if (cache.containsKey(id)) {
+                cache.put(id, object);
+                return object;
+            }
         }
+        return joinPoint.proceed();
     }
 
     @Around("deleteMethod()")
-    public void cachingDeleteMethod(ProceedingJoinPoint joinPoint){
-        Long id = (Long) joinPoint.getArgs()[0];
-        if(cache.containsKey(id)){
-            cache.delete(id);
+    public void cachingDeleteMethod(ProceedingJoinPoint joinPoint) {
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+
+        if (hasAnnotation) {
+            Long id = (Long) joinPoint.getArgs()[0];
+            if (cache.containsKey(id)) {
+                cache.delete(id);
+            }
         }
     }
 
