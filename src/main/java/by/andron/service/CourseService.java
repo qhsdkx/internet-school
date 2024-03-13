@@ -1,5 +1,6 @@
 package by.andron.service;
 
+import by.andron.aspect.annotation.Cacheable;
 import by.andron.dto.CourseCreationDto;
 import by.andron.exception.ServiceException;
 import by.andron.mapper.CourseMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Cacheable
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -46,13 +48,14 @@ public class CourseService {
     }
 
     @Transactional
-    public void update(Long id, CourseCreationDto courseCreationDto) {
+    public CourseDto update(Long id, CourseCreationDto courseCreationDto) {
         try {
             Course course = courseRepository.findById(id)
                     .orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
             Course entity = courseMapper.toEntity(courseCreationDto);
             updateCourse(course, entity);
             courseRepository.save(course);
+            return courseMapper.toDto(course);
         } catch (Exception e) {
             throw new ServiceException("Cannot update user in service", HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +71,6 @@ public class CourseService {
     }
 
     private void updateCourse(Course course, Course source){
-        course.setId(source.getId());
         course.setName(source.getName());
         course.setTeacher(source.getTeacher());
         course.setUsers(source.getUsers());

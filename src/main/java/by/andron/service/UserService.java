@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Cacheable
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @Cacheable
     public UserDto findById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Cannot find user by id in service", HttpStatus.BAD_REQUEST));
@@ -48,13 +48,14 @@ public class UserService {
     }
 
     @Transactional
-    public void update(Long id, UserCreationDto userCreationDto) {
+    public UserDto update(Long id, UserCreationDto userCreationDto) {
         try {
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new ServiceException("Cannot find user by id in service", HttpStatus.BAD_REQUEST));
             User entity = userMapper.toEntity(userCreationDto);
             updateUser(user, entity);
             userRepository.save(entity);
+            return userMapper.toDto(user);
         } catch (Exception e) {
             throw new ServiceException("Cannot update this user in service", HttpStatus.BAD_REQUEST);
         }
@@ -70,7 +71,6 @@ public class UserService {
     }
 
     private void updateUser(User user, User source){
-        user.setId(source.getId());
         user.setName(source.getName());
         user.setSurname(source.getSurname());
         user.setLogin(source.getLogin());

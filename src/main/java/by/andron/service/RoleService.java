@@ -46,13 +46,14 @@ public class RoleService {
     }
 
     @Transactional
-    public void update(Long id, RoleCreationDto roleCreationDto) {
+    public RoleDto update(Long id, RoleCreationDto roleCreationDto) {
         try {
             Role role = roleRepository.findById(id)
                     .orElseThrow(() -> new ServiceException("Cannot find role by id in service", HttpStatus.BAD_REQUEST));
             Role entity = roleMapper.toEntity(roleCreationDto);
             updateRole(role, entity);
             roleRepository.save(role);
+            return roleMapper.toDto(role);
         } catch (Exception e) {
             throw new ServiceException("Cannot update this user in service", HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +69,6 @@ public class RoleService {
     }
 
     private void updateRole(Role role, Role source){
-        role.setId(source.getId());
         role.setName(source.getName());
         role.setUsers(source.getUsers());
     }

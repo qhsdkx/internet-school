@@ -46,13 +46,14 @@ public class CourseResultService {
     }
 
     @Transactional
-    public void update(Long id, CourseResultCreationDto courseResultCreationDto) {
+    public CourseResultDto update(Long id, CourseResultCreationDto courseResultCreationDto) {
         try {
             CourseResult courseResult = courseResultRepository.findById(id)
                     .orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
             CourseResult entity = courseResultMapper.toEntity(courseResultCreationDto);
             updateCourseResults(courseResult, entity);
             courseResultRepository.save(courseResult);
+            return courseResultMapper.toDto(courseResult);
         } catch (Exception e) {
             throw new ServiceException("Cannot update this course result in service", HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +69,6 @@ public class CourseResultService {
     }
 
     private void updateCourseResults(CourseResult courseResult, CourseResult source){
-        courseResult.setId(source.getId());
         courseResult.setCourse(source.getCourse());
         courseResult.setUser(source.getUser());
         courseResult.setScore(source.getScore());
