@@ -7,12 +7,10 @@ import java.util.List;
 
 public class LRUCache implements Cache<Long, Object> {
 
-    private final int capacity;
     private final LinkedHashMap<Long, Object> cache;
 
     public LRUCache(int capacity) {
-        this.capacity = capacity;
-        this.cache = new LinkedHashMap<>(capacity, 0.75f, true);
+        this.cache = new LinkedHashMap<>(capacity);
     }
 
     @Override
