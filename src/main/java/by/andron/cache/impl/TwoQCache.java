@@ -1,17 +1,17 @@
-package by.andron.cache;
+package by.andron.cache.impl;
 
+import by.andron.cache.Cache;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
-public class TwoQCache {
+public class TwoQCache implements Cache<Long, Object> {
 
     private final int capacity;
-    private final LinkedHashMap<Long, Object> hotQueue;
-    private final LinkedHashMap<Long, Object> coldQueue;
+    private final Map<Long, Object> hotQueue;
+    private final Map<Long, Object> coldQueue;
 
     public TwoQCache(int capacity){
         this.capacity = capacity;
@@ -25,6 +25,7 @@ public class TwoQCache {
         this.coldQueue = new LinkedHashMap<>(capacity - capacity/5, 0.75f, true);
     }
 
+    @Override
     public Object get(Long key){
         Object value = hotQueue.get(key);
         if(value == null){
@@ -37,14 +38,7 @@ public class TwoQCache {
         return value;
     }
 
-    public List<Object> getAllFromHotQueue(){
-        return hotQueue.keySet().stream().map(this::get).toList();
-    }
-
-    public List<Object> getAllFromColdQueue(){
-        return coldQueue.keySet().stream().map(this::get).toList();
-    }
-
+    @Override
     public void put(Long key, Object value){
         if(hotQueue.containsKey(key) || coldQueue.containsKey(key)){
             hotQueue.put(key, value);
@@ -59,11 +53,13 @@ public class TwoQCache {
         }
     }
 
+    @Override
     public void delete(Long key){
         hotQueue.remove(key);
         coldQueue.remove(key);
     }
 
+    @Override
     public boolean containsKey(Long key){
         return hotQueue.containsKey(key) || coldQueue.containsKey(key);
     }
