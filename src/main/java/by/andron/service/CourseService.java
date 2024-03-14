@@ -1,6 +1,6 @@
 package by.andron.service;
 
-import by.andron.aspect.annotation.Cacheable;
+import by.andron.aspect.annotation.MyCacheable;
 import by.andron.dto.CourseCreationDto;
 import by.andron.exception.ServiceException;
 import by.andron.mapper.CourseMapper;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Cacheable
+@MyCacheable
 @Service
 @RequiredArgsConstructor
 public class CourseService {

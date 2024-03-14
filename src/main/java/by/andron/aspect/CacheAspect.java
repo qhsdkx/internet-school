@@ -1,6 +1,6 @@
 package by.andron.aspect;
 
-import by.andron.aspect.annotation.Cacheable;
+import by.andron.aspect.annotation.MyCacheable;
 import by.andron.cache.Cache;
 import by.andron.cache.impl.LRUCache;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class CacheAspect {
 
     @Around("findByIdMethod()")
     public Object cachingFindByIdResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(MyCacheable.class);
 
         if (hasAnnotation) {
             Long id = (Long) joinPoint.getArgs()[0];
@@ -54,7 +54,7 @@ public class CacheAspect {
 
     @Around("updateMethod()")
     public Object cachingUpdateResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(MyCacheable.class);
 
         if (hasAnnotation) {
             Long id = (Long) joinPoint.getArgs()[0];
@@ -69,7 +69,7 @@ public class CacheAspect {
 
     @Around("deleteMethod()")
     public void cachingDeleteMethod(ProceedingJoinPoint joinPoint) {
-        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(Cacheable.class);
+        boolean hasAnnotation = joinPoint.getTarget().getClass().isAnnotationPresent(MyCacheable.class);
 
         if (hasAnnotation) {
             Long id = (Long) joinPoint.getArgs()[0];
