@@ -4,7 +4,7 @@ import by.andron.cache.Cache;
 
 import java.util.LinkedHashMap;
 
-public class LRUCache implements Cache<Long, Object> {
+public class LRUCache implements Cache {
 
     private final int capacity;
     private final LinkedHashMap<Long, Object> cache;

@@ -1,13 +1,13 @@
 package by.andron.cache;
 
-public interface Cache <K, V>{
+public interface Cache {
 
-    public V get(K key);
+    public Object get(Long key);
 
-    public void put(K key, V object);
+    public void put(Long key, Object object);
 
-    public void delete(K key);
+    public void delete(Long key);
 
-    public boolean containsKey(K key);
+    public boolean containsKey(Long key);
 
 }
