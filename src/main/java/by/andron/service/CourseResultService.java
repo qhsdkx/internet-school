@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import by.andron.dto.CourseResultDto;
 import by.andron.model.CourseResult;
 import by.andron.repository.CourseResultRepository;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class CourseResultService {
 
     private final CourseResultMapper courseResultMapper;
 
+    @Cacheable(cacheNames = "courseResultCache", key = "#id")
     public CourseResultDto findById(Long id) {
         CourseResult courseResult = courseResultRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Cannot find course by id in service", HttpStatus.BAD_REQUEST));
@@ -35,6 +38,7 @@ public class CourseResultService {
         }
     }
 
+    @Cacheable(cacheNames = "courseResultCache")
     @Transactional
     public CourseResultDto save(CourseResultCreationDto courseResultCreationDto) {
         try {
@@ -45,6 +49,7 @@ public class CourseResultService {
         }
     }
 
+    @CachePut(cacheNames = "courseResultCache", key = "#id")
     @Transactional
     public CourseResultDto update(Long id, CourseResultCreationDto courseResultCreationDto) {
         try {
@@ -59,6 +64,7 @@ public class CourseResultService {
         }
     }
 
+    @CachePut(cacheNames = "courseResultCache", key = "#id")
     @Transactional
     public void delete(Long id) {
         try {
