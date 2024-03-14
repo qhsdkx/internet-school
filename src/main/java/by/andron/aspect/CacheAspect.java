@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CacheAspect {
 
-    private final Cache<Long, Object> cache = new LRUCache(20);
+    private final Cache cache = new LRUCache(20);
 
     @Pointcut("execution(public !void by.andron.service.*.findById(..))")
     public void findByIdMethod() {
