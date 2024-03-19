@@ -6,6 +6,7 @@ import by.andron.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,26 +25,32 @@ public class UserController {
 
     private final UserService service;
 
+    @PreAuthorize("hasAuthority('READ_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('READ_USER')")
     @GetMapping
     public ResponseEntity<List<UserDto>> findAll(){
         return new ResponseEntity<> (service.findAll(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('CREATE_USER')")
     @PostMapping
     public ResponseEntity<UserDto> save (@RequestBody UserCreationDto userCreationDto){
         return new ResponseEntity<> (service.save(userCreationDto), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> update (@PathVariable("id") Long id, @RequestBody UserCreationDto userCreationDto){
         service.update(id, userCreationDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('DELETE_USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id){
         service.delete(id);

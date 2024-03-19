@@ -6,6 +6,7 @@ import by.andron.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +25,32 @@ public class RoleController {
 
     private final RoleService service;
 
+    @PreAuthorize("hasAnyAuthority('READ_ROLE')")
     @GetMapping("/{id}")
     public ResponseEntity<RoleDto> findById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ROLE')")
     @GetMapping
     public ResponseEntity<List<RoleDto>> findAll(){
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('CREATE_ROLE')")
     @PostMapping
     public ResponseEntity<RoleDto> save (@RequestBody RoleCreationDto dto){
         return new ResponseEntity<>(service.save(dto), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyAuthority('UPDATE_ROLE')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> update (@PathVariable("id") Long id, @RequestBody RoleCreationDto dto){
         service.update(id, dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('DELETE_ROLE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete (@PathVariable("id") Long id){
         service.delete(id);
