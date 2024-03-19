@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@MyCacheable
 @RequiredArgsConstructor
 public class UserService {
 
@@ -27,6 +26,11 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Cannot find user by id in service", HttpStatus.BAD_REQUEST));
         return userMapper.toDto(user);
+    }
+
+    public UserCreationDto findByLogin(String login) {
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new ServiceException("There is no such user with following login", HttpStatus.NOT_FOUND));
+        return userMapper.toCreationDto(user);
     }
 
     public List<UserDto> findAll(){

@@ -19,6 +19,9 @@ public interface UserMapper {
     @Mapping(target = "roles", source = "roleIds", qualifiedByName = "mapRoleIdsToRoles")
     User toEntity(UserCreationDto userDto);
 
+    @Mapping(target = "roleIds", source = "user.roles", qualifiedByName = "mapRolesToRoleIds")
+    UserCreationDto toCreationDto(User user);
+
     UserDto toDto(User user);
 
     List<UserDto> toDto(List<User> user);
