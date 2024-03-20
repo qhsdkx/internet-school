@@ -32,21 +32,11 @@ public class AuthenticationService {
     private final UserMapper userMapper;
 
     public AuthenticationResponse register(UserCreationDto request){
-        UserCreationDto user = UserCreationDto.builder()
-                .name(request.getName())
-                .surname(request.getSurname())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .login(request.getLogin())
-                .birthDate(request.getBirthDate())
-                .roleIds(request.getRoleIds())
-                .build();
-        userService.save(user);
-        String accessToken = jwtService.generateToken(userMapper.toEntity(user));
-        String refreshToken = jwtService.generateRefreshToken(userMapper.toEntity(user));
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        userService.save(request);
+        String accessToken = jwtService.generateToken(userMapper.toEntity(request));
+        String refreshToken = jwtService.generateRefreshToken(userMapper.toEntity(request));
+        return new AuthenticationResponse(accessToken, refreshToken);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
@@ -54,17 +44,13 @@ public class AuthenticationService {
         UserCreationDto user = userService.findByLogin(request.getLogin());
         String accessToken = jwtService.generateToken(userMapper.toEntity(user));
         String refreshToken = jwtService.generateRefreshToken(userMapper.toEntity(user));
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return new AuthenticationResponse(accessToken, refreshToken);
     }
 
     public void refreshToken (
-            HttpServletRequest request,
+            String authHeader,
             HttpServletResponse response
     ) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userLogin;
 
@@ -80,11 +66,10 @@ public class AuthenticationService {
             UserDetails userDetails = userMapper.toEntity(user);
 
             if(jwtService.isTokenValid(refreshToken, userDetails)){
-                String accessToken = jwtService.generateToken(userDetails);
-                AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
+                AuthenticationResponse authResponse = new AuthenticationResponse(
+                        jwtService.generateToken(userDetails),
+                        jwtService.generateRefreshToken(userDetails)
+                );
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
