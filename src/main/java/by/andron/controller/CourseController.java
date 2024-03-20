@@ -37,7 +37,7 @@ public class CourseController {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('CREATE_COURSE')")
+    @PreAuthorize("hasAuthority('CREATE_COURSE') and #courseCreationDto.teacherId == @userService.findUserByLogin(authentication.name).id")
     @PostMapping
     public ResponseEntity<CourseDto> save (@RequestBody CourseCreationDto courseCreationDto){
         return new ResponseEntity<>(service.save(courseCreationDto), HttpStatus.CREATED);
