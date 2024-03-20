@@ -33,6 +33,11 @@ public class UserService {
         return userMapper.toCreationDto(user);
     }
 
+    public UserDto findUserByLogin(String login){
+        User user = userRepository.findUserByLogin(login);
+        return userMapper.toDto(user);
+    }
+
     public List<UserDto> findAll(){
         try {
             return userMapper.toDto(userRepository.findAll());
