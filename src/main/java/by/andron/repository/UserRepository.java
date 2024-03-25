@@ -1,20 +1,21 @@
 package by.andron.repository;
 
+import by.andron.dto.UserCreationDto;
 import by.andron.model.User;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
 
-    Optional<User> findById(Long id);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findAll(int page, int size);
+    @Query("from User u left join fetch u.roles r left join fetch r.authorities left join fetch u.courses where u.login = :login")
+    Optional<User> findByLogin(@Param("login") String login);
 
-    User save(User user);
-
-    void update(Long id, User user);
-
-    void delete(Long id);
+    User findUserByLogin(String login);
 
 }

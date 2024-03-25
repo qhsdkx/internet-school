@@ -11,6 +11,8 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "SPRING", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CourseResultMapper {
 
@@ -21,6 +23,10 @@ public interface CourseResultMapper {
     @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserToUserId")
     @Mapping(target = "courseId", source = "course", qualifiedByName = "mapCourseToCourseId")
     CourseResultDto toDto(CourseResult courseResult);
+
+    @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserToUserId")
+    @Mapping(target = "courseId", source = "course", qualifiedByName = "mapCourseToCourseId")
+    List<CourseResultDto> toDto(List<CourseResult> courseResults);
 
     @Named("mapUserIdToUser")
     default User mapUserIdToUser(Long userId) {

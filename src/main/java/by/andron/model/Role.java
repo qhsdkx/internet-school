@@ -11,6 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "roles")
+@Builder
 public class Role {
 
     @Id
@@ -42,5 +44,15 @@ public class Role {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private Set<User> users = new HashSet<>();
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "authorities_roles_link",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_id")}
+    )
+    private Set<Authority> authorities = new HashSet<>();
 
 }
